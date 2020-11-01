@@ -1,32 +1,31 @@
 const { response } = require('express');
 const express = require('express');
+const { uuid } = require('uuidv4');
+
 const app = express();
 
 app.use(express.json());
 
+const projects = [];        
+//não utilizar em produção pq é uma variável que armazena apenas na memória da aplicação enquanto está rodando.
+
 app.get('/projects', (request, response) => {
-    const { title, owner } = request.query;
+    // const { title, owner } = request.query;
 
-     console.log(title);
-     console.log(owner);
+    //  console.log(title);
+    //  console.log(owner);
 
-    return response.json([
-        'Projeto 1',
-        'Projeto 2'
-    ]);
+    return response.json(projects);
 });
 
 app.post('/projects', (request, response) => {
     const { title, owner } = request.body;
 
-    console.log(title);
-    console.log(owner);
+    const project = { id: uuid(), title, owner };
     
-    return response.json([
-        'Projeto 1',
-        'Projeto 2',
-        'Projeto 3',
-    ]);
+    projects.push(project);
+
+    return response.json(project);
 });
 
 app.put('/projects/:id', (request, response) => {
