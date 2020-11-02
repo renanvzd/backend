@@ -8,7 +8,20 @@ app.use(express.json());
 const projects = [];        
 //não utilizar em produção pq é uma variável que armazena apenas na memória da aplicação enquanto está rodando.
 
-app.get('/projects', (request, response) => {
+function logRequests(request, response, next) {
+    const { method, url } = request;
+
+    const logLabel = `[${method.toUpperCase()}] ${url}`;
+
+    console.log(logLabel);
+
+    return next();  //Próximo middleware
+
+}
+
+//app.use(logRequests);
+
+app.get('/projects', logRequests, (request, response) => {
     const { title } = request.query;
 
     const results = title
