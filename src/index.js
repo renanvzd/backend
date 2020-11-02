@@ -13,15 +13,16 @@ function logRequests(request, response, next) {
 
     const logLabel = `[${method.toUpperCase()}] ${url}`;
 
-    console.log(logLabel);
+    console.time(logLabel);
 
-    return next();  //Próximo middleware
+    next();  //Próximo middleware    
 
+    console.timeEnd(logLabel);
 }
 
-//app.use(logRequests);
+app.use(logRequests);
 
-app.get('/projects', logRequests, (request, response) => {
+app.get('/projects', (request, response) => {
     const { title } = request.query;
 
     const results = title
